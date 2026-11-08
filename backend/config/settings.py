@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'corsheaders',
+    'forodepreguntas'
 ]
 
 MIDDLEWARE = [
@@ -47,7 +51,39 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+
 ]
+
+CORS_ALLOWED_ORIGINS = [ # (3)
+ 'http://localhost:5173',
+ 'http://127.0.0.1:5173',
+]
+
+REST_FRAMEWORK = {
+'DEFAULT_RENDERER_CLASSES': [
+
+'rest_framework.renderers.JSONRenderer',
+
+'rest_framework.renderers.BrowsableAPIRenderer',
+ ],
+ 'DEFAULT_PARSER_CLASSES': [
+'rest_framework.parsers.JSONParser',
+ ],
+ "DEFAULT_AUTHENTICATION_CLASSES": [
+ "rest_framework.authentication.TokenAuthentication",
+ "rest_framework_simplejwt.authentication.JWTAuthentication",
+ ],
+ "DEFAULT_PERMISSION_CLASSES": [
+ "rest_framework.permissions.IsAuthenticated",
+ ],
+}
+SIMPLE_JWT = {
+ "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+ "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+}
+
 
 ROOT_URLCONF = 'config.urls'
 
