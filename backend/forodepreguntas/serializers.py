@@ -1,19 +1,29 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers, generics
 from rest_framework.permissions import AllowAny
+from .models import Pregunta,Respuesta
 
 User = get_user_model()
 
 class RegistroSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(
+    contraseña = serializers.CharField(
     write_only=True, min_length=8)
     class Meta:
         model = User
-        fields = ["id", "username", "email", "password"]
+        fields = ["id", "usuario", "contraseña" ,"correo"]
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
     
 class RegistroView(generics.CreateAPIView):
     serializer_class = RegistroSerializer
     permission_classes = [AllowAny]
-     
+
+class PreguntaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Pregunta
+        fields = ["id", "titulo", "contenido", "fecha", "autor"]
+
+class RespuestaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Respuesta
+        fields = ["id", "contenido", "fecha", "autor", "pregunta"]
