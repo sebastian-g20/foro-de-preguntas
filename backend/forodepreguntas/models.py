@@ -10,13 +10,13 @@ class Pregunta(models.Model):
     titulo = models.CharField(max_length=300)
     contenido = models.CharField(max_length=300)
     fecha = models.DateTimeField(auto_now_add=True)
-    autor = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, related_name="preguntas",
-    null=True, blank=True)
+    autor = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,
+                                related_name="preguntas")
 
 class Respuesta(models.Model):
     contenido= models.CharField(max_length=300)
     fecha = models.DateTimeField(auto_now_add=True)
-    autor = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, related_name="respuestas_escritas",
-        null=True, blank=True)
-    pregunta = models.ForeignKey(Pregunta,on_delete=models.CASCADE, related_name="respuestas",
-        null=True, blank=True)
+    autor = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, 
+                                related_name="respuestas_escritas")
+    pregunta = models.ForeignKey(Pregunta,on_delete=models.CASCADE,
+                                related_name="respuestas")

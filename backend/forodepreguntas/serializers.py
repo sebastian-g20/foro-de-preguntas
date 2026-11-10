@@ -1,6 +1,5 @@
 from django.contrib.auth import get_user_model
-from rest_framework import serializers, generics
-from rest_framework.permissions import AllowAny
+from rest_framework import serializers
 from .models import Pregunta,Respuesta
 
 User = get_user_model()
@@ -14,16 +13,19 @@ class RegistroSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
     
-class RegistroView(generics.CreateAPIView):
-    serializer_class = RegistroSerializer
-    permission_classes = [AllowAny]
 
 class PreguntaSerializer(serializers.ModelSerializer):
+    autor = serializers.ReadOnlyField(source='autor.usuario')
     class Meta:
         model = Pregunta
         fields = ["id", "titulo", "contenido", "fecha", "autor"]
+        read_only_fields = ["id","fecha","autor"]
+
 
 class RespuestaSerializer(serializers.ModelSerializer):
+    autor = serializers.ReadOnlyField(source='autor.usuario')
     class Meta:
         model = Respuesta
         fields = ["id", "contenido", "fecha", "autor", "pregunta"]
+        read_only_fields = ["id","fecha","autor","pregunta"]
+   
