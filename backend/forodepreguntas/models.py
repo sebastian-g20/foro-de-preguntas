@@ -8,7 +8,7 @@ class User(models.Model):
 
 class Pregunta(models.Model):
     titulo = models.CharField(max_length=300)
-    contenido = models.CharField(max_length=300)
+    contenido = models.CharField(max_length=300, blank = True)
     fecha = models.DateTimeField(auto_now_add=True)
     autor = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,
                                 related_name="preguntas")
