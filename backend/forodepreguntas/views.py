@@ -19,14 +19,11 @@ class PreguntaViewSet(viewsets.ModelViewSet):
         serializer.save(autor = self.request.user)
 
 class RespuestaViewSet(viewsets.ModelViewSet):
+    queryset = Respuesta.objects.all()
     serializer_class = RespuestaSerializer
     permission_classes = [IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
 
-    def get_queryset(self):
-        return  Respuesta.objects.filter(pregunta_sid=self.kwargs["pregunta"])
 
     def perform_create(self, serializer):
         serializer.save(
-            autor = self.request.user,
-            pregunta_id = self.kwargs["pregunta"]
-        )
+            autor = self.request.user)

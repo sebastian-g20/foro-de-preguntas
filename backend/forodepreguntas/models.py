@@ -2,9 +2,9 @@ from django.db import models
 from django.conf import settings
 
 class User(models.Model):
-    usuario = models.CharField(max_length=15)
-    contraseña= models.CharField(max_length=20)
-    correo= models.EmailField(max_length=254, unique=True)
+    username = models.CharField(max_length=15)
+    password= models.CharField(max_length=20)
+    email= models.EmailField(max_length=254, unique=True)
 
 class Pregunta(models.Model):
     titulo = models.CharField(max_length=300)
