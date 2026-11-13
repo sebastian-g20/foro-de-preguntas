@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { crearRespuesta } from '../api/respuestas'
 
-const VACIO = { titulo: '', contenido: ''}
+const VACIO = { contenido: '' }
 
 export default function RespuestaForm({ pregunta, onCreado }) {
   const [datos, setDatos] = useState(VACIO)
@@ -14,7 +14,7 @@ export default function RespuestaForm({ pregunta, onCreado }) {
   async function enviar(e) {
     e.preventDefault()
     try {
-      const nuevo = await crearRespuesta(datos)
+      const nuevo = await crearRespuesta({...datos, pregunta})
       onCreado(nuevo)
       setDatos(VACIO)
       setErrores({})
@@ -29,8 +29,9 @@ export default function RespuestaForm({ pregunta, onCreado }) {
 
   return (
     <form onSubmit={enviar}>
-      <input name="contenido" type="text" placeholder="contenido"
+      <input name="contenido" type="text" placeholder="respuesta"
              value={datos.contenido} onChange={cambiar} />
+             
       <button type="submit">Enviar Respuesta</button>
 
       {Object.entries(errores).map(([campo, mensajes]) => (

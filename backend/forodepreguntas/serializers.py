@@ -14,18 +14,17 @@ class RegistroSerializer(serializers.ModelSerializer):
         return User.objects.create_user(**validated_data)
     
 
-class PreguntaSerializer(serializers.ModelSerializer):
-    autor_usuario = serializers.CharField(source='autor.username', read_only=True)
-    class Meta:
-        model = Pregunta
-        fields = ["id", "titulo", "contenido", "fecha", "autor", "autor_usuario"]
-        read_only_fields = ["id","fecha","autor","autor_usuario"]
-
-
 class RespuestaSerializer(serializers.ModelSerializer):
     autor_usuario = serializers.CharField(source='autor.username', read_only=True)
     class Meta:
         model = Respuesta
         fields = ["id", "contenido", "fecha", "autor","autor_usuario", "pregunta"]
-        read_only_fields = ["id","fecha","autor","pregunta","autor_usuario"]
-   
+        read_only_fields = ["id","fecha","autor","autor_usuario"]
+
+class PreguntaSerializer(serializers.ModelSerializer):
+    autor_usuario = serializers.CharField(source='autor.username', read_only=True)
+    respuestas = RespuestaSerializer(many=True, read_only=True)
+    class Meta:
+        model = Pregunta
+        fields = ["id", "titulo", "contenido", "fecha", "autor", "autor_usuario","respuestas"]
+        read_only_fields = ["id","fecha","autor","autor_usuario"]   

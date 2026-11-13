@@ -34,7 +34,7 @@ class RespuestaViewSet(viewsets.ModelViewSet):
         if self.action in ("list", "retrieve"):
             return [AllowAny()]
         if self.action == "destroy":
-            return [IsAdminUser()]
+            return [IsOwnerOrReadOnly()]
         return [IsAuthenticated(), IsOwnerOrReadOnly()]
 
     def perform_create(self, serializer):
